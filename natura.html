@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda Naturista Salud & Vida</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: "Poppins", sans-serif;
+            background: #f4f2e9; /* crema natural */
+            color: #3b3b3b;
+        }
+
+        header {
+            background: #2e7d32; /* verde esmeralda */
+            padding: 25px;
+            color: white;
+            border-radius: 0 0 15px 15px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.25);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.2em;
+            font-weight: bold;
+        }
+
+        nav button {
+            background: #a5d6a7; /* verde pastel */
+            color: #1b5e20;
+            font-weight: bold;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            margin-right: 10px;
+            transition: 0.3s;
+        }
+
+        nav button:hover {
+            background: #81c784;
+            transform: translateY(-2px);
+        }
+
+        nav button.active {
+            background: #66bb6a;
+            color: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        .page { display: none; }
+        .page.active { display: block; }
+
+        .filters {
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .filters select {
+            padding: 12px;
+            border-radius: 10px;
+            border: 2px solid #a5d6a7;
+            background: #e8f5e9;
+            width: 250px;
+            font-size: 15px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px,1fr));
+            gap: 25px;
+        }
+
+        .product-card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+            transition: 0.3s;
+        }
+        .product-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 4px 15px rgba(46,125,50,0.3);
+        }
+
+        .product-card h3 {
+            margin: 5px 0;
+            color: #2e7d32;
+        }
+
+        .category {
+            background: #c8e6c9;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            color: #1b5e20;
+        }
+
+        .price {
+            color: #00897b;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .product-card button {
+            background: #4caf50;
+            color: white;
+            padding: 12px;
+            width: 100%;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .product-card button:hover {
+            background: #388e3c;
+        }
+
+        .login-box {
+            background: white;
+            max-width: 380px;
+            margin: 70px auto;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.2);
+        }
+
+        .login-box h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #2e7d32;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 12px;
+            border-radius: 10px;
+            border: 2px solid #c8e6c9;
+            background: #f1f8e9;
+        }
+
+        .btn-primary {
+            background: #2e7d32;
+            color: white;
+            padding: 12px;
+            border-radius: 10px;
+            border: none;
+            width: 100%;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .btn-primary:hover {
+            background: #1b5e20;
+        }
+
+        #dashboard span {
+            display: block;
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            margin: 10px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            font-size: 18px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 20px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        thead {
+            background: #66bb6a;
+            color: white;
+        }
+
+        th, td {
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .btn-edit {
+            background: #0277bd;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-delete {
+            background: #d32f2f;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .alert-success {
+            background: #a5d6a7;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            font-weight: bold;
+            color: #1b5e20;
+        }
+
+        .alert-error {
+            background: #ef9a9a;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            font-weight: bold;
+            color: #b71c1c;
+        }
+
+        /* Categorías */
+        .category-manager {
+            background: #f1f8e9;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .category-manager input {
+            width: auto;
+            display: inline-block;
+            margin-right: 10px;
+        }
+        .category-manager button {
+            display: inline-block;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🌿 Salud & Vida – Tienda Naturista</h1>
+    <nav>
+        <button onclick="showPage('tienda')" id="btnTienda">🛒 Tienda</button>
+        <button onclick="showPage('login')" id="btnLogin">🔐 Login</button>
+        <button onclick="showPage('dashboard')" id="btnDashboard" style="display:none">📊 Dashboard</button>
+        <button onclick="showPage('crud')" id="btnCrud" style="display:none">⚙️ Administrar</button>
+        <button onclick="logout()" id="btnLogout" style="display:none">🚪 Salir</button>
+    </nav>
+</header>
+
+<div class="container">
+
+    <!-- --------- TIENDA NATURISTA --------- -->
+    <div id="tienda" class="page active">
+        <div class="filters">
+            <label><strong>Categoría:</strong></label>
+            <select id="categoryFilter" onchange="filterProducts()"></select>
+        </div>
+
+        <div id="productsGrid" class="products-grid"></div>
+    </div>
+
+    <!-- --------- LOGIN --------- -->
+    <div id="login" class="page">
+        <div class="login-box">
+            <h2>Acceso Administrador</h2>
+            <div id="loginAlert"></div>
+
+            <form onsubmit="handleLogin(event)">
+                <label>Usuario:</label>
+                <input id="username" required>
+                <label>Contraseña:</label>
+                <input id="password" type="password" required>
+                <button class="btn-primary">Ingresar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- --------- DASHBOARD --------- -->
+    <div id="dashboard" class="page">
+        <h2 style="color:#2e7d32;">📊 Panel Naturista</h2>
+        <span>Total productos: <strong id="totalProducts">0</strong></span>
+        <span>Items en el carrito: <strong id="cartItems">0</strong></span>
+    </div>
+
+    <!-- --------- CRUD --------- -->
+    <div id="crud" class="page">
+        <h2 style="color:#2e7d32;">⚙️ Administrar Productos Naturistas</h2>
+        <div id="crudAlert"></div>
+
+        <form id="productForm" onsubmit="saveProduct(event)">
+            <input type="hidden" id="editId">
+            <label>Nombre:</label>
+            <input id="productName" required>
+            <label>Descripción:</label>
+            <textarea id="productDescription" required></textarea>
+            <label>Precio:</label>
+            <input id="productPrice" type="number" required>
+            <label>Categoría:</label>
+            <select id="productCategory" required></select>
+            <label>Stock:</label>
+            <input id="productStock" type="number" required>
+            <button class="btn-primary">Guardar</button>
+        </form>
+
+        <div class="category-manager">
+            <h3>Administrar Categorías</h3>
+            <input id="newCategory" placeholder="Nueva categoría">
+            <button onclick="addCategory()">Agregar</button>
+            <select id="existingCategories"></select>
+            <button onclick="removeCategory()">Eliminar</button>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th><th>Nombre</th><th>Categoría</th><th>Precio</th><th>Stock</th><th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="productsTableBody"></tbody>
+        </table>
+    </div>
+
+</div>
+
+<script>
+let categories = ["Vitaminas","Suplementos","Tés y Hierbas","Productos Naturales"];
+
+let products = [
+    {id:1, name:"Vitamina C 1000mg", description:"Refuerza el sistema inmune.", price:25000, category:"Vitaminas", stock:30},
+    {id:2, name:"Té Verde Orgánico", description:"Antioxidante natural premium.", price:18000, category:"Tés y Hierbas", stock:20},
+    {id:3, name:"Colágeno Hidrolizado", description:"Salud para piel y articulaciones.", price:45000, category:"Suplementos", stock:10},
+    {id:4, name:"Miel Pura de Abeja", description:"100% natural sin conservantes.", price:22000, category:"Productos Naturales", stock:15},
+    {id:5, name:"Aceite de Coco 500ml", description:"Ideal para cocinar y cuidado de piel.", price:12000, category:"Productos Naturales", stock:8},
+    {id:6, name:"Jengibre en Polvo 100g", description:"Potente antioxidante natural.", price:7000, category:"Tés y Hierbas", stock:12},
+    {id:7, name:"Proteína de Soya 1kg", description:"Fuente vegetal de proteínas.", price:35000, category:"Suplementos", stock:5},
+    {id:8, name:"Semillas de Chía 250g", description:"Ricas en omega 3 y fibra.", price:9000, category:"Productos Naturales", stock:18},
+    {id:9, name:"Infusión Relajante", description:"Mejora el sueño y reduce estrés.", price:6000, category:"Tés y Hierbas", stock:20},
+    {id:10, name:"Barritas Energéticas Naturales", description:"Snack saludable y nutritivo.", price:4000, category:"Productos Naturales", stock:25},
+    {id:11, name:"Té de Manzanilla", description:"Calma digestión y nervios.", price:5000, category:"Tés y Hierbas", stock:15},
+    {id:12, name:"Maca Andina 200g", description:"Aumenta energía y vitalidad.", price:15000, category:"Suplementos", stock:10},
+    {id:13, name:"Spirulina en Polvo 100g", description:"Alga superalimento rica en proteínas.", price:14000, category:"Suplementos", stock:7},
+    {id:14, name:"Aceite de Onagra 60 cápsulas", description:"Salud hormonal y piel.", price:28000, category:"Suplementos", stock:9}
+];
+
+let cart = [];
+let isLoggedIn = false;
+
+function init(){ 
+    updateCategorySelectors();
+    renderProducts(); 
+    updateDashboard(); 
+}
+init();
+
+function updateCategorySelectors(){
+    let catFilter = document.getElementById("categoryFilter");
+    let prodCat = document.getElementById("productCategory");
+    let existCat = document.getElementById("existingCategories");
+
+    catFilter.innerHTML = `<option value="all">Todas</option>` + categories.map(c=>`<option value="${c}">${c}</option>`).join("");
+    prodCat.innerHTML = `<option value="">Seleccionar...</option>` + categories.map(c=>`<option value="${c}">${c}</option>`).join("");
+    existCat.innerHTML = categories.map(c=>`<option value="${c}">${c}</option>`).join("");
+}
+
+function addCategory(){
+    let val = document.getElementById("newCategory").value.trim();
+    if(val && !categories.includes(val)){
+        categories.push(val);
+        updateCategorySelectors();
+        document.getElementById("newCategory").value="";
+        alert(`Categoría "${val}" agregada`);
+    }
+}
+
+function removeCategory(){
+    let sel = document.getElementById("existingCategories").value;
+    if(sel && confirm(`¿Eliminar la categoría "${sel}"? Esto no eliminará los productos existentes.`)){
+        categories = categories.filter(c=>c!==sel);
+        updateCategorySelectors();
+        alert(`Categoría "${sel}" eliminada`);
+    }
+}
+
+function showPage(p){
+    document.querySelectorAll('.page').forEach(pg=>pg.classList.remove('active'));
+    document.getElementById(p).classList.add('active');
+    if(p==="crud") renderProductsTable();
+}
+
+function handleLogin(e){
+    e.preventDefault();
+    if(username.value==="admin" && password.value==="admin123"){
+        isLoggedIn = true;
+        btnDashboard.style.display = btnCrud.style.display = btnLogout.style.display = "inline-block";
+        btnLogin.style.display="none";
+        loginAlert.innerHTML = `<div class="alert-success">Bienvenido</div>`;
+        setTimeout(()=>showPage('dashboard'),1000);
+    } else {
+        loginAlert.innerHTML = `<div class="alert-error">Datos incorrectos</div>`;
+    }
+}
+
+function logout(){
+    isLoggedIn=false;
+    btnDashboard.style.display = btnCrud.style.display = btnLogout.style.display = "none";
+    btnLogin.style.display="inline-block";
+    showPage('tienda');
+}
+
+function renderProducts(){
+    let filter = categoryFilter.value;
+    let filtered = filter==="all" ? products : products.filter(p=>p.category===filter);
+
+    productsGrid.innerHTML = filtered.map(p=>`
+        <div class="product-card">
+            <span class="category">${p.category}</span>
+            <h3>${p.name}</h3>
+            <p>${p.description}</p>
+            <div class="price">$${p.price.toLocaleString("es-CO")}</div>
+            <p>Stock: ${p.stock}</p>
+            <button onclick="addToCart(${p.id})">Agregar</button>
+        </div>
+    `).join("");
+}
+
+function filterProducts(){ renderProducts(); }
+
+function addToCart(id){
+    let p = products.find(x=>x.id===id);
+    if(p.stock>0){
+        cart.push({...p});
+        p.stock--;
+        renderProducts();
+        updateDashboard();
+        if(isLoggedIn) renderProductsTable();
+        alert("Agregado al carrito");
+    }
+}
+
+function updateDashboard(){
+    totalProducts.textContent = products.length;
+    cartItems.textContent = cart.length;
+}
+
+function renderProductsTable(){
+    productsTableBody.innerHTML = products.map(p=>`
+        <tr>
+            <td>${p.id}</td>
+            <td>${p.name}</td>
+            <td>${p.category}</td>
+            <td>$${p.price.toLocaleString("es-CO")}</td>
+            <td>${p.stock}</td>
+            <td>
+                <button class="btn-edit" onclick="editProduct(${p.id})">Editar</button>
+                <button class="btn-delete" onclick="deleteProduct(${p.id})">Eliminar</button>
+            </td>
+        </tr>
+    `).join("");
+}
+
+function saveProduct(e){
+    e.preventDefault();
+    let id = editId.value;
+    let pData = {
+        name: productName.value,
+        description: productDescription.value,
+        price: parseInt(productPrice.value),
+        category: productCategory.value,
+        stock: parseInt(productStock.value)
+    };
+
+    if(id){
+        let p = products.find(x=>x.id==id);
+        Object.assign(p,pData);
+        crudAlert.innerHTML=`<div class="alert-success">Producto actualizado</div>`;
+    } else {
+        let newId = products.length?Math.max(...products.map(x=>x.id))+1:1;
+        products.push({id:newId, ...pData});
+        crudAlert.innerHTML=`<div class="alert-success">Producto creado</div>`;
+    }
+
+    productForm.reset();
+    editId.value="";
+    renderProducts();
+    renderProductsTable();
+}
+
+function editProduct(id){
+    let p = products.find(x=>x.id===id);
+    editId.value=p.id;
+    productName.value=p.name;
+    productDescription.value=p.description;
+    productPrice.value=p.price;
+    productCategory.value=p.category;
+    productStock.value=p.stock;
+}
+
+function deleteProduct(id){
+    if(confirm("¿Eliminar producto?")){
+        products = products.filter(x=>x.id!==id);
+        renderProductsTable();
+        renderProducts();
+        crudAlert.innerHTML=`<div class="alert-success">Producto eliminado</div>`;
+    }
+}
+</script>
+
+</body>
+</html>
