@@ -282,9 +282,16 @@
             <div id="loginAlert"></div>
 
             <form onsubmit="handleLogin(event)">
-                <label>Usuario:</label>
-                <input id="username" required>
-                <label>Contraseña:</label>
+               <form onsubmit="handleLogin(event)">
+    <label for="username">Usuario:</label>
+    <input id="username" name="username" required>
+
+    <label for="password">Contraseña:</label>
+    <input id="password" name="password" type="password" required>
+
+    <button class="btn-primary">Ingresar</button>
+</form>
+
                 <input id="password" type="password" required>
                 <button class="btn-primary">Ingresar</button>
             </form>
