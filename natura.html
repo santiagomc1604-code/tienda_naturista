@@ -482,7 +482,29 @@ function renderProductsTable(){
 }
 
 function saveProduct(e){
+   function guardarProducto(e) {
     e.preventDefault();
+
+    let id = editId.value;
+    let pData = {
+        nombre: nombreProducto.value,
+        descripción: productDescription.value,
+        precio: Number.parseInt(precioProducto.value, 10),
+        categoria: productCategory.value,
+        stock: Number.parseInt(productoStock.value, 10)
+    };
+
+    if (id) {
+        let p = productos.find(x => x.id == id);
+        Object.assign(p, pData);
+        crudAlert.innerHTML = "<div class='alerta-exito'>Producto actualizado</div>";
+    } else {
+        let newId = productos.length ? Math.max(...productos.map(x => x.id)) + 1 : 1;
+        productos.push({ id: newId, ...pData });
+        crudAlert.innerHTML = "<div class='alerta-exito'>Producto creado</div>";
+    }
+}
+
     let id = editId.value;
     let pData = {
         name: productName.value,
